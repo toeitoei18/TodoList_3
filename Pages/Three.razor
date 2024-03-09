@@ -1,0 +1,40 @@
+﻿@page "/three"
+
+<PageTitle>สิ่งที่ต้องทำ</PageTitle>
+
+<h1>รายการสิ่งที่ต้องทำ (@threes.Count(three => !three.IsDone))</h1>
+
+<ul>
+    @foreach (var three in threes)
+    {
+        <li>
+            <input type="checkbox" @bind="three.IsDone"/>
+            <input @bind="three.Title"/>
+            <button @onclick="() => RemoveTodo(three)">ลบรายการ</button>
+            </li>
+    }
+</ul>
+
+<input placeholder="กรอกรายการที่นี้" @bind="newTodo" />
+<button @onclick="AddTodo">เพิ่มรายการ</button>
+
+@code {
+    private List<TodoItem> threes = new();
+    private string? newTodo;
+
+    private void AddTodo()
+    {
+      if (!string.IsNullOrWhiteSpace(newTodo))
+        {
+            threes.Add(new TodoItem { Title = newTodo });
+            newTodo = string.Empty;
+        }  
+    }
+    private void RemoveTodo(TodoItem todo)
+{
+    threes.Remove(todo);
+}
+
+
+
+}
